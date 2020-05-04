@@ -31,6 +31,7 @@ class Command(BaseCommand):
         s.set_password('password')
 
         a, _ = User.objects.get_or_create(username='admin', defaults={
+            'is_staff': True,
             'is_superuser': True,
         })
         a.set_password('password')
