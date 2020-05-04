@@ -14,6 +14,12 @@ class Menu(models.Model):
     def __str__(self):
         return f'{self.company.name}: {self.name}'
 
+    def company_name(self):
+        return self.company.name
+
+    def dish_count(self):
+        return self.dishes.count()
+
 
 class Dish(models.Model):
     name = models.CharField(max_length=128, unique=True)

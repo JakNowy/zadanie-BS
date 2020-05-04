@@ -53,8 +53,17 @@ class TestMenuModel(TestCase):
 
     @classmethod
     def setUpClass(cls):
+        dish = Dish.objects.create(name='Dish', price=10)
         company = Company.objects.create(name='Company')
         cls.menu = Menu.objects.create(name='Menu', company=company)
+        cls.menu.dishes.add(dish)
+        cls.menu.save()
+
+    def test_menu_company_name_resolve(self):
+        assert self.menu.company_name() == 'Company'
+
+    def test_menu_dish_count_resolve(self):
+        assert self.menu.dish_count() == 1
 
     def test_menu__str__(self):
         assert self.menu.__str__() == 'Company: Menu'
@@ -63,3 +72,4 @@ class TestMenuModel(TestCase):
     def tearDownClass(cls):
         Company.objects.all().delete()
         Menu.objects.all().delete()
+        Dish.objects.all().delete()

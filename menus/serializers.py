@@ -2,10 +2,11 @@ from rest_framework import serializers
 from .models import Menu, Dish
 
 
-class MenuSerializer(serializers.HyperlinkedModelSerializer):
+class MenuSerializer(serializers.ModelSerializer):
     class Meta:
+        depth = 1
         model = Menu
-        fields = ('id', 'name', 'description', 'dishes', 'date_modified', 'date_created')
+        fields = ('id', 'company_name', 'dish_count', 'name', 'description', 'dishes', 'date_modified', 'date_created')
 
 
 class DishSerializer(serializers.HyperlinkedModelSerializer):

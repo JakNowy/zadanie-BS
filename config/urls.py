@@ -21,7 +21,7 @@ from .api import router
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('menu/', include(router.urls)),
+    path('api/', include(router.urls)),
 ]
 
 if settings.DEBUG:

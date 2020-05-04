@@ -1,3 +1,4 @@
+import random
 from django.core.management.base import BaseCommand
 from menus.models import Menu, Dish
 from users.models import Company
@@ -49,24 +50,33 @@ class Command(BaseCommand):
             Dish.objects.get_or_create(name=dish_name, defaults=dish)
         print('Dishes created!')
 
-        dish1 = Dish.objects.first()
-        dish2 = Dish.objects.last()
+        dishes_manekin = Dish.objects.filter(company=manekin)
+        dishes_sliwka = Dish.objects.filter(company=sliwka)
 
         # MENUS
         menus = [
-            {'name': 'Menu letnie', 'description': 'Lorem20', 'company': manekin},
-            {'name': 'Menu jesienne', 'description': 'Lorem20', 'company': manekin},
-            {'name': 'Menu wiosenne', 'description': 'Lorem20', 'company': manekin},
-            {'name': 'Menu zimowe', 'description': 'Lorem20', 'company': manekin},
-            {'name': 'Menu kwiecien', 'description': 'Lorem20', 'company': sliwka},
-            {'name': 'Menu maj', 'description': 'Lorem20', 'company': sliwka},
-            {'name': 'Menu czerwiec', 'description': 'Lorem20', 'company': sliwka},
-            {'name': 'Menu lipiec', 'description': 'Lorem20', 'company': sliwka},
+            {'name': 'Menu letnie', 'description': 'Wszystko pyszne!', 'company': manekin},
+            {'name': 'Menu jesienne', 'description': 'Wszystko pyszne!', 'company': manekin},
+            {'name': 'Menu wiosenne', 'description': 'Wszystko pyszne!', 'company': manekin},
+            {'name': 'Menu zimowe', 'description': 'Wszystko pyszne!', 'company': manekin},
+            {'name': 'Menu kwiecien', 'description': 'Wszystko pyszne!', 'company': sliwka},
+            {'name': 'Menu maj', 'description': 'Wszystko pyszne!', 'company': sliwka},
+            {'name': 'Menu czerwiec', 'description': 'Wszystko pyszne!', 'company': sliwka},
+            {'name': 'Menu lipiec', 'description': 'Wszystko pyszne!', 'company': sliwka},
         ]
         for menu in menus:
             menu_name = menu.pop('name')
             m, _ = Menu.objects.get_or_create(name=menu_name, defaults=menu)
-            m.dishes.add(dish1)
-            m.dishes.add(dish2)
+
+            if m.company == manekin:
+                for dish in dishes_manekin:
+                    if random.getrandbits(1):
+                        m.dishes.add(dish)
+
+            elif m.company == sliwka:
+                for dish in dishes_sliwka:
+                    if random.getrandbits(1):
+                        m.dishes.add(dish)
+
             m.save()
         print('Menus created!')
