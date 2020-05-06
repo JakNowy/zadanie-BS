@@ -1,15 +1,16 @@
 from PIL import Image
+from django.core.validators import MinValueValidator
 from django.db import models
 from django.utils.safestring import mark_safe
 
+from utils.db import DateTimeMixin
 
-class Menu(models.Model):
-    name = models.CharField(max_length=128)
-    description = models.TextField(null=True, blank=True)
-    company = models.ForeignKey('users.Company', on_delete=models.DO_NOTHING, related_name='menus', null=False)
-    dishes = models.ManyToManyField('Dish', related_name='menus')
-    date_modified = models.DateTimeField(auto_now_add=True)
-    date_created = models.DateTimeField(auto_now=True)
+
+class Menu(DateTimeMixin):
+    name = models.CharField(max_length=128, verbose_name='Nazwa')
+    description = models.TextField(null=True, blank=True, verbose_name='Opis')
+    company = models.ForeignKey('users.Company', on_delete=models.DO_NOTHING, related_name='menus', null=False, verbose_name='Firmy')
+    dishes = models.ManyToManyField('Dish', related_name='menus', verbose_name='Dania')
 
     def __str__(self):
         return f'{self.company.name}: {self.name}'
@@ -20,22 +21,25 @@ class Menu(models.Model):
     def dish_count(self):
         return self.dishes.count()
 
+    class Meta:
+        verbose_name = 'Karta'
+        verbose_name_plural = 'Karty'
 
-class Dish(models.Model):
-    name = models.CharField(max_length=128, unique=True)
-    description = models.TextField(null=True, blank=True)
-    company = models.ForeignKey('users.Company', on_delete=models.DO_NOTHING, related_name='dishes', null=True)
-    price = models.FloatField()
-    preparation_time = models.CharField(max_length=16)
-    is_vegan = models.BooleanField(default=False)
-    image = models.ImageField(upload_to='dishes/', null=True, blank=True)
-    date_modified = models.DateTimeField(auto_now_add=True)
-    date_created = models.DateTimeField(auto_now=True)
+
+class Dish(DateTimeMixin):
+    name = models.CharField(max_length=128, unique=True, verbose_name='Nazwa')
+    description = models.TextField(null=True, blank=True, verbose_name='Opis')
+    company = models.ForeignKey('users.Company', on_delete=models.DO_NOTHING, related_name='dishes', null=True, verbose_name='Firma')
+    price = models.DecimalField(max_digits=5, decimal_places=2, validators=(MinValueValidator(0), ), verbose_name='Cena')
+    preparation_time = models.IntegerField(validators=[MinValueValidator(0)], verbose_name='Czas przygotowania')
+    is_vegan = models.BooleanField(default=False, verbose_name='Wegańskie')
+    image = models.ImageField(upload_to='dishes/', null=True, blank=True, verbose_name='Zdjęcie')
 
     image_size = 100
 
     class Meta:
-        verbose_name_plural = 'Dishes'
+        verbose_name = 'Danie'
+        verbose_name_plural = 'Dania'
 
     def __str__(self):
         return self.name

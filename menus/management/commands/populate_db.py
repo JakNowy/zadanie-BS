@@ -30,19 +30,19 @@ class Command(BaseCommand):
         # DISHES
         dishes = [
             {'name': 'Naleśnik z serem', 'price': 10, 'description': 'Ale pyszne!', 'company': manekin,
-             'is_vegan': True},
+             'is_vegan': True, 'preparation_time': 20},
             {'name': 'Naleśnik z wołowiną', 'price': 15, 'description': 'Ale pyszne!', 'company': manekin,
-             'is_vegan': False},
+             'is_vegan': False, 'preparation_time': 20},
             {'name': 'Naleśnik z truskawkami', 'price': 12, 'description': 'Ale pyszne!', 'company': manekin,
-             'is_vegan': True},
+             'is_vegan': True, 'preparation_time': 20},
             {'name': 'Naleśnik z łososiem', 'price': 10, 'description': 'Ale pyszne!', 'company': manekin,
-             'is_vegan': False},
+             'is_vegan': False, 'preparation_time': 20},
             {'name': 'Ośmiornica', 'price': 10, 'description': 'Ale pyszne!', 'company': sliwka,
-             'is_vegan': False},
+             'is_vegan': False, 'preparation_time': 20},
             {'name': 'Żeberka z dzika', 'price': 10, 'description': 'Ale pyszne!', 'company': sliwka,
-             'is_vegan': False},
+             'is_vegan': False, 'preparation_time': 20},
             {'name': 'Karkówka w sosie miodowo-musztardowym', 'price': 10, 'description': 'Ale pyszne!', 'company': sliwka,
-             'is_vegan': False},
+             'is_vegan': False, 'preparation_time': 20},
         ]
 
         for dish in dishes:

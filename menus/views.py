@@ -11,7 +11,7 @@ class DishViewset(ReadOnlyModelViewSet):
 
 class MenuViewset(ReadOnlyModelViewSet):
     serializer_class = MenuSerializer
-    queryset = Menu.objects.all()
+    queryset = Menu.objects.exclude(dishes__isnull=True)
 
     # Define sorting:
     sortable_fields = ('name', )
